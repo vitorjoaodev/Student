@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 222 47% 11%;
+  --foreground: 210 40% 98%;
+  --muted: 217 33% 17%;
+  --muted-foreground: 215 16% 47%;
+  --popover: 222 47% 11%;
+  --popover-foreground: 210 40% 98%;
+  --card: 222 47% 11%;
+  --card-foreground: 210 40% 98%;
+  --border: 217 33% 17%;
+  --input: 217 33% 17%;
+  --primary: 258 77% 64%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 162 100% 35%;
+  --secondary-foreground: 210 40% 98%;
+  --accent: 0 79% 63%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 210 40% 98%;
+  --ring: 258 77% 64%;
+  --radius: 0.5rem;
+  --chart-1: 258 77% 64%;
+  --chart-2: 162 100% 35%;
+  --chart-3: 0 79% 63%;
+  --chart-4: 39 100% 50%;
+  --chart-5: 326 100% 74%;
+  --sidebar-background: 222 47% 11%;
+  --sidebar-foreground: 210 40% 98%;
+  --sidebar-primary: 258 77% 64%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 0 79% 63%;
+  --sidebar-accent-foreground: 210 40% 98%;
+  --sidebar-border: 217 33% 17%;
+  --sidebar-ring: 258 77% 64%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-opacity-70 backdrop-blur-md border border-white/10;
+  }
+  
+  .neon-border {
+    @apply border border-primary/20 shadow-[0_0_10px_rgba(108,92,231,0.3)];
+  }
+  
+  .neon-border-accent {
+    @apply border border-accent/20 shadow-[0_0_10px_rgba(255,107,107,0.3)];
+  }
+  
+  .neon-border-secondary {
+    @apply border border-secondary/20 shadow-[0_0_10px_rgba(0,184,148,0.3)];
+  }
+  
+  .sidebar-link {
+    @apply flex items-center px-4 py-3 rounded-lg text-foreground/70 transition-all duration-200 hover:translate-x-1;
+  }
+  
+  .sidebar-link.active {
+    @apply bg-primary/20 text-foreground;
+  }
+  
+  .sidebar-link:hover:not(.active) {
+    @apply bg-primary/10;
+  }
+  
+  .task-card {
+    @apply transition-all duration-300 hover:-translate-y-1;
+  }
+  
+  .mindmap-connection {
+    @apply stroke-primary stroke-2 stroke-dasharray-5;
+  }
+  
+  .mindmap-node {
+    @apply transition-all duration-300 hover:scale-105;
+  }
+  
+  /* Custom scrollbar */
+  .scrollbar-thin::-webkit-scrollbar {
+    @apply w-1;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    @apply bg-white/5;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-primary/50 rounded-full;
+  }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(108, 92, 231, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(108, 92, 231, 0);
+  }
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 1000;
+  }
+}
+
+.goal-viz {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  transition: all 0.3s ease;
+}
+
+.goal-viz:hover {
+  transform: rotateY(10deg);
+}
