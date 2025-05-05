@@ -85,12 +85,130 @@
         font-size: 0.9rem;
         color: rgba(255, 255, 255, 0.6);
       }
+      .tabs {
+        display: flex;
+        justify-content: center;
+        margin-top: 3rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .tab {
+        padding: 0.8rem 1.5rem;
+        cursor: pointer;
+        margin: 0 0.5rem;
+        border-bottom: 2px solid transparent;
+        transition: all 0.3s ease;
+      }
+      .tab.active {
+        border-bottom: 2px solid var(--color-primary);
+        color: var(--color-primary);
+        font-weight: 500;
+      }
+      .tab:hover {
+        color: var(--color-primary);
+      }
+      .screenshots {
+        margin-top: 2rem;
+      }
+      .screenshot {
+        display: none;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        overflow: hidden;
+        margin: 0 auto 2rem;
+        max-width: 100%;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+      .screenshot.active {
+        display: block;
+      }
+      .screenshot img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+      .dashboard-demo {
+        margin-top: 3rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 10px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        text-align: left;
+      }
+      .demo-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+      .greeting {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--color-text);
+      }
+      .date {
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .card-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      }
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      .card-title {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--color-primary);
+      }
+      .task-item {
+        display: flex;
+        align-items: center;
+        padding: 0.8rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .task-check {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 2px solid var(--color-primary);
+        margin-right: 10px;
+      }
+      .task-title {
+        flex: 1;
+      }
+      .task-due {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .task-priority {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        padding: 0.2rem 0.5rem;
+        border-radius: 3px;
+        background: var(--color-accent);
+        color: white;
+        margin-left: 0.5rem;
+      }
       @media (max-width: 768px) {
         h1 {
           font-size: 2rem;
         }
         h2 {
           font-size: 1.2rem;
+        }
+        .card-container {
+          grid-template-columns: 1fr;
         }
       }
     </style>
@@ -105,7 +223,7 @@
         <h1>Estudos Manager</h1>
         <h2>Organização acadêmica sofisticada para estudantes universitários</h2>
         <div>
-          <a href="client/index.html" class="btn">Iniciar Aplicativo</a>
+          <a href="#demo" class="btn">Ver Demonstração</a>
           <a href="https://github.com/vitorjoaodev/todo-app" class="btn btn-secondary">Ver no GitHub</a>
         </div>
       </header>
@@ -127,9 +245,123 @@
         </div>
       </div>
 
+      <div id="demo" class="dashboard-demo">
+        <div class="demo-header">
+          <div>
+            <div class="greeting">Olá, John!</div>
+            <div class="date">Segunda-feira, 6 de Maio de 2025</div>
+          </div>
+        </div>
+
+        <div class="card-container">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Tarefas Pendentes</div>
+            </div>
+            <div class="task-item">
+              <div class="task-check"></div>
+              <div class="task-title">Estudar Algoritmos</div>
+              <div class="task-due">Hoje</div>
+              <div class="task-priority">Alta</div>
+            </div>
+            <div class="task-item">
+              <div class="task-check"></div>
+              <div class="task-title">Relatório de Física</div>
+              <div class="task-due">Amanhã</div>
+              <div class="task-priority" style="background: var(--color-secondary);">Média</div>
+            </div>
+            <div class="task-item">
+              <div class="task-check"></div>
+              <div class="task-title">Leitura Capítulo 5</div>
+              <div class="task-due">10 Mai</div>
+              <div class="task-priority" style="background: #64748b;">Baixa</div>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Sessões Pomodoro</div>
+            </div>
+            <div style="text-align: center; padding: 20px;">
+              <div style="font-size: 3rem; font-family: 'JetBrains Mono', monospace;">25:00</div>
+              <div style="margin: 20px 0;">
+                <button class="btn" style="margin: 0 5px; padding: 0.5rem 1rem;">Iniciar</button>
+                <button class="btn btn-secondary" style="margin: 0 5px; padding: 0.5rem 1rem;">Pausar</button>
+              </div>
+              <div style="font-size: 0.9rem; color: rgba(255,255,255,0.6);">
+                Última sessão: Estudar Algoritmos (25min)
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Mapa Mental</div>
+          </div>
+          <div style="height: 200px; position: relative; overflow: hidden;">
+            <!-- Simplified mind map visualization -->
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--color-primary); color: white; padding: 10px 20px; border-radius: 20px;">
+              Machine Learning
+            </div>
+            <div style="position: absolute; top: 30%; left: 30%; transform: translate(-50%, -50%); background: var(--color-secondary); color: white; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
+              Supervised
+            </div>
+            <div style="position: absolute; top: 70%; left: 30%; transform: translate(-50%, -50%); background: var(--color-secondary); color: white; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
+              Unsupervised
+            </div>
+            <div style="position: absolute; top: 30%; left: 70%; transform: translate(-50%, -50%); background: var(--color-accent); color: white; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
+              Neural Networks
+            </div>
+            <div style="position: absolute; top: 70%; left: 70%; transform: translate(-50%, -50%); background: var(--color-accent); color: white; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
+              Clustering
+            </div>
+            <!-- Lines connecting nodes -->
+            <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
+              <line x1="50%" y1="50%" x2="30%" y2="30%" stroke="var(--color-primary)" stroke-width="2" />
+              <line x1="50%" y1="50%" x2="30%" y2="70%" stroke="var(--color-primary)" stroke-width="2" />
+              <line x1="50%" y1="50%" x2="70%" y2="30%" stroke="var(--color-primary)" stroke-width="2" />
+              <line x1="50%" y1="50%" x2="70%" y2="70%" stroke="var(--color-primary)" stroke-width="2" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 3rem;">
+        <div class="card" style="text-align: left; max-width: 600px; margin: 0 auto;">
+          <div class="card-header">
+            <div class="card-title">Instruções de Instalação</div>
+          </div>
+          <div style="padding: 1rem 0;">
+            <p>Para executar este aplicativo em seu ambiente local:</p>
+            <ol style="text-align: left; padding-left: 1.5rem;">
+              <li>Clone o repositório: <code style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.4rem; border-radius: 4px;">git clone https://github.com/vitorjoaodev/todo-app.git</code></li>
+              <li>Entre no diretório: <code style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.4rem; border-radius: 4px;">cd todo-app</code></li>
+              <li>Instale as dependências: <code style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.4rem; border-radius: 4px;">npm install</code></li>
+              <li>Execute o aplicativo: <code style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.4rem; border-radius: 4px;">npm run dev</code></li>
+            </ol>
+            <p>O aplicativo estará disponível em <code style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.4rem; border-radius: 4px;">http://localhost:5000</code></p>
+          </div>
+        </div>
+      </div>
+
       <footer>
         Desenvolvido por João Vitor Belasque &copy; 2025
       </footer>
     </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+              behavior: 'smooth'
+            });
+          });
+        });
+      });
+    </script>
   </body>
 </html>
