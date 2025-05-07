@@ -1,79 +1,127 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../index';
 
+// Interface para uma notificação
 export interface Notification {
   id: string;
+  type: 'info' | 'success' | 'warning' | 'error';
   title: string;
   message: string;
-  timestamp: number;
-  read: boolean;
-  type: 'task' | 'pomodoro' | 'goal' | 'system';
-  actionLink?: string;
+  duration?: number;
+  isRead: boolean;
+  createdAt: Date;
 }
 
+// Estado das notificações
 interface NotificationsState {
-  items: Notification[];
-  permission: 'default' | 'granted' | 'denied';
+  notifications: Notification[];
   enabled: boolean;
+  pushEnabled: boolean;
+  soundEnabled: boolean;
 }
 
+// Estado inicial
 const initialState: NotificationsState = {
-  items: [],
-  permission: 'default',
-  enabled: false,
+  notifications: [],
+  enabled: true,
+  pushEnabled: false,
+  soundEnabled: true
+};
+
+// Gera um ID único para cada notificação
+const generateId = () => {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2);
 };
 
 export const notificationsSlice = createSlice({
   name: 'notifications',
   initialState,
   reducers: {
-    addNotification: (state, action: PayloadAction<Omit<Notification, 'id' | 'timestamp' | 'read'>>) => {
-      const id = Date.now().toString();
-      state.items.push({
-        ...action.payload,
-        id,
-        timestamp: Date.now(),
-        read: false,
-      });
-      
-      // Keep only the latest 50 notifications
-      if (state.items.length > 50) {
-        state.items = state.items.slice(-50);
+    // Adicionar uma nova notificação
+    addNotification: {
+      reducer: (state, action: PayloadAction<Notification>) => {
+        state.notifications.unshift(action.payload);
+        
+        // Limita a quantidade de notificações armazenadas (máximo 50)
+        if (state.notifications.length > 50) {
+          state.notifications = state.notifications.slice(0, 50);
+        }
+      },
+      prepare: ({ type, title, message, duration }: Omit<Notification, 'id' | 'isRead' | 'createdAt'>) => {
+        return {
+          payload: {
+            id: generateId(),
+            type,
+            title,
+            message,
+            duration: duration || 5000, // Padrão de 5 segundos
+            isRead: false,
+            createdAt: new Date()
+          }
+        };
       }
     },
+    
+    // Marcar uma notificação como lida
     markAsRead: (state, action: PayloadAction<string>) => {
-      const notification = state.items.find(n => n.id === action.payload);
+      const notification = state.notifications.find(n => n.id === action.payload);
       if (notification) {
-        notification.read = true;
+        notification.isRead = true;
       }
     },
+    
+    // Marcar todas as notificações como lidas
     markAllAsRead: (state) => {
-      state.items.forEach(notification => {
-        notification.read = true;
+      state.notifications.forEach(notification => {
+        notification.isRead = true;
       });
     },
+    
+    // Remover uma notificação por ID
     removeNotification: (state, action: PayloadAction<string>) => {
-      state.items = state.items.filter(n => n.id !== action.payload);
+      state.notifications = state.notifications.filter(n => n.id !== action.payload);
     },
+    
+    // Limpar todas as notificações
     clearAllNotifications: (state) => {
-      state.items = [];
+      state.notifications = [];
     },
-    setPermission: (state, action: PayloadAction<'default' | 'granted' | 'denied'>) => {
-      state.permission = action.payload;
-    },
-    setEnabled: (state, action: PayloadAction<boolean>) => {
+    
+    // Ativar/Desativar notificações
+    setNotificationsEnabled: (state, action: PayloadAction<boolean>) => {
       state.enabled = action.payload;
     },
-  },
+    
+    // Ativar/Desativar notificações push
+    setPushNotificationsEnabled: (state, action: PayloadAction<boolean>) => {
+      state.pushEnabled = action.payload;
+    },
+    
+    // Ativar/Desativar sons de notificação
+    setSoundEnabled: (state, action: PayloadAction<boolean>) => {
+      state.soundEnabled = action.payload;
+    }
+  }
 });
 
+// Export actions
 export const {
   addNotification,
   markAsRead,
   markAllAsRead,
   removeNotification,
   clearAllNotifications,
-  setPermission,
-  setEnabled,
+  setNotificationsEnabled,
+  setPushNotificationsEnabled,
+  setSoundEnabled
 } = notificationsSlice.actions;
+
+// Selectors
+export const selectNotifications = (state: RootState) => state.notifications.notifications;
+export const selectUnreadNotifications = (state: RootState) => 
+  state.notifications.notifications.filter(n => !n.isRead);
+export const selectNotificationsEnabled = (state: RootState) => state.notifications.enabled;
+export const selectPushNotificationsEnabled = (state: RootState) => state.notifications.pushEnabled;
+export const selectSoundEnabled = (state: RootState) => state.notifications.soundEnabled;
 
 export default notificationsSlice.reducer;
