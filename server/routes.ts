@@ -1,4 +1,4 @@
-import type { Express, Request, Response } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { 
@@ -10,6 +10,7 @@ import {
   updateTaskSchema
 } from "@shared/schema";
 import { ZodError } from "zod";
+import { setupAuth } from "./auth";
 
 // Middleware to handle Zod validation errors
 const handleZodError = (err: unknown, res: Response) => {
@@ -22,30 +23,23 @@ const handleZodError = (err: unknown, res: Response) => {
   return res.status(500).json({ message: "Internal server error" });
 };
 
-// Helper to get the current user (mock implementation)
+// Helper para obter o ID do usuário autenticado
 const getCurrentUserId = (req: Request): number => {
-  // In a real app, this would be derived from JWT or session
-  return 1; 
+  if (req.user && req.isAuthenticated()) {
+    return req.user.id;
+  }
+  // Fallback para desenvolvimento - em produção, deveria retornar um erro de autenticação
+  return 1;
 };
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // API Routes - all prefixed with /api
+  // Configurando autenticação
+  setupAuth(app);
   
-  // User routes
-  app.get('/api/user', async (req: Request, res: Response) => {
-    try {
-      const userId = getCurrentUserId(req);
-      const user = await storage.getUser(userId);
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-      // Don't return the password
-      const { password, ...userWithoutPassword } = user;
-      res.json(userWithoutPassword);
-    } catch (err) {
-      res.status(500).json({ message: "Failed to get user" });
-    }
-  });
+  // Rotas da API - todas com prefixo /api
+  
+  // As rotas de autenticação (/api/login, /api/register, /api/logout, /api/user)
+  // já foram configuradas no setupAuth em server/auth.ts
 
   // Course routes
   app.get('/api/courses', async (req: Request, res: Response) => {
