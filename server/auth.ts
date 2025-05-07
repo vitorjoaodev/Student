@@ -37,11 +37,12 @@ async function comparePasswords(supplied: string, stored: string) {
 export function setupAuth(app: Express) {
   const sessionSettings: session.SessionOptions = {
     secret: process.env.SESSION_SECRET || "estudiohub-secret-do-not-use-in-production",
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     cookie: {
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 1000 * 60 * 60 * 24 // 1 dia
+      secure: false, // Em desenvolvimento, não usar secure
+      maxAge: 1000 * 60 * 60 * 24, // 1 dia
+      httpOnly: true
     }
   };
 
