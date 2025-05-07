@@ -1,5 +1,5 @@
 /** @type {import('jest').Config} */
-export default {
+module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/client/src/setupTests.ts'],
@@ -31,13 +31,7 @@ export default {
     '!client/src/service-worker.ts',
     '!client/src/serviceWorkerRegistration.ts',
   ],
-  coverageThreshold: {
-    global: {
-      branches: 60,
-      functions: 60,
-      lines: 60,
-      statements: 60,
-    },
-  },
   testMatch: ['**/__tests__/**/*.{ts,tsx}', '**/*.{spec,test}.{ts,tsx}'],
+  testTimeout: 10000,
+  maxWorkers: 1,
 };

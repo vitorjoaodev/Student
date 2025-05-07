@@ -29,40 +29,40 @@ const Sidebar = ({ className = "" }: SidebarProps) => {
       <div className="py-4 flex-1 overflow-y-auto scrollbar-thin">
         <nav className="px-4 space-y-1">
           <Link href="/">
-            <a className={`sidebar-link ${location === "/" ? "active" : ""}`}>
+            <div className={`sidebar-link ${location === "/" ? "active" : ""}`}>
               <Home className="h-5 w-5 mr-3" />
               Dashboard
-            </a>
+            </div>
           </Link>
           <Link href="/tasks">
-            <a className={`sidebar-link ${location === "/tasks" ? "active" : ""}`}>
+            <div className={`sidebar-link ${location === "/tasks" ? "active" : ""}`}>
               <CheckSquare className="h-5 w-5 mr-3" />
               Tasks
-            </a>
+            </div>
           </Link>
           <Link href="/mindmap">
-            <a className={`sidebar-link ${location === "/mindmap" ? "active" : ""}`}>
+            <div className={`sidebar-link ${location === "/mindmap" ? "active" : ""}`}>
               <Zap className="h-5 w-5 mr-3" />
               Mind Map
-            </a>
+            </div>
           </Link>
           <Link href="/calendar">
-            <a className={`sidebar-link ${location === "/calendar" ? "active" : ""}`}>
+            <div className={`sidebar-link ${location === "/calendar" ? "active" : ""}`}>
               <Calendar className="h-5 w-5 mr-3" />
               Calendar
-            </a>
+            </div>
           </Link>
           <Link href="/goals">
-            <a className={`sidebar-link ${location === "/goals" ? "active" : ""}`}>
+            <div className={`sidebar-link ${location === "/goals" ? "active" : ""}`}>
               <TrendingUp className="h-5 w-5 mr-3" />
               Goals
-            </a>
+            </div>
           </Link>
           <Link href="/pomodoro">
-            <a className={`sidebar-link ${location === "/pomodoro" ? "active" : ""}`}>
+            <div className={`sidebar-link ${location === "/pomodoro" ? "active" : ""}`}>
               <Timer className="h-5 w-5 mr-3" />
               Pomodoro
-            </a>
+            </div>
           </Link>
         </nav>
       </div>
