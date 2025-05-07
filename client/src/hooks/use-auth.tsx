@@ -38,12 +38,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return await res.json();
     },
     onSuccess: (user: SelectUser) => {
+      // Atualiza o cache do usuário
       queryClient.setQueryData(["/api/user"], user);
+      
+      // Inválida a query para forçar uma nova requisição
+      queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+      
       toast({
         title: "Login successful",
         description: `Welcome back, ${user.firstName}!`,
         variant: "default",
       });
+      
+      // Redirecionar para a home após login bem-sucedido
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1000);
     },
     onError: (error: Error) => {
       toast({
@@ -60,12 +70,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return await res.json();
     },
     onSuccess: (user: SelectUser) => {
+      // Atualiza o cache do usuário
       queryClient.setQueryData(["/api/user"], user);
+      
+      // Inválida a query para forçar uma nova requisição
+      queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+      
       toast({
         title: "Registration successful",
         description: `Welcome to EstudioHub, ${user.firstName}!`,
         variant: "default",
       });
+      
+      // Redirecionar para a home após registro bem-sucedido
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1000);
     },
     onError: (error: Error) => {
       toast({
