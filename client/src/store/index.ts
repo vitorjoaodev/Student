@@ -11,8 +11,18 @@ export const store = configureStore({
     theme: themeReducer,
     notifications: notificationsReducer,
   },
+  // Middleware para lidar com serialização de datas em Redux
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignora ações específicas onde datas são usadas
+        ignoredActions: ['tasks/addTask', 'tasks/updateTask', 'pomodoro/startSession', 'pomodoro/endSession'],
+        // Ignora caminhos específicos no estado onde datas são armazenadas
+        ignoredPaths: ['tasks.items.dueDate', 'tasks.items.createdAt', 'pomodoro.sessions.startTime', 'pomodoro.sessions.endTime'],
+      },
+    }),
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
+// Tipos de inferência para o estado global e despacho
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
