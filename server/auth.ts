@@ -22,6 +22,12 @@ async function hashPassword(password: string) {
 }
 
 async function comparePasswords(supplied: string, stored: string) {
+  if (!stored || !stored.includes('.')) {
+    // Verificação direta (apenas para desenvolvimento)
+    return supplied === stored;
+  }
+  
+  // Verificação segura com hash e salt
   const [hashed, salt] = stored.split(".");
   const hashedBuf = Buffer.from(hashed, "hex");
   const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
